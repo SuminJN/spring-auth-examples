@@ -12,10 +12,10 @@ public class JwtUtil {
 
     // JWT 시크릿 키 (실제 운영환경에서는 환경변수로 관리)
     private final String SECRET_KEY = "JWT_SECRET_KEY_EXAMPLE_1234567890";
-    
+
     // AccessToken 유효시간 (15분)
     private final long ACCESS_TOKEN_EXPIRATION_TIME = 1000 * 60 * 15;
-    
+
     // RefreshToken 유효시간 (7일)
     private final long REFRESH_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
 
@@ -64,19 +64,9 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    // JWT 토큰 유효성 검증
-    public boolean validateToken(String token, String username) {
-        try {
-            String extractedUsername = extractUsername(token);
-            return extractedUsername.equals(username) && !isTokenExpired(token);
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
-    }
-
     // JWT 토큰 만료 여부 확인
-    private boolean isTokenExpired(String token) {
-        return extractClaims(token).getExpiration().before(new Date());
+    private boolean isTokenValid(String token) {
+        return extractClaims(token).getExpiration().after(new Date());
     }
 
     // JWT 토큰에서 토큰 타입 추출
@@ -103,24 +93,18 @@ public class JwtUtil {
     }
 
     // Access Token 유효성 검증 (역할 정보 포함)
-    public boolean validateAccessToken(String token, String username) {
+    public boolean validateAccessToken(String token) {
         try {
-            String extractedUsername = extractUsername(token);
-            return extractedUsername.equals(username) && 
-                   !isTokenExpired(token) && 
-                   isAccessToken(token);
+            return isAccessToken(token) && isTokenValid(token);
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
     // Refresh Token 유효성 검증
-    public boolean validateRefreshToken(String token, String username) {
+    public boolean validateRefreshToken(String token) {
         try {
-            String extractedUsername = extractUsername(token);
-            return extractedUsername.equals(username) && 
-                   !isTokenExpired(token) && 
-                   isRefreshToken(token);
+            return isRefreshToken(token) && isTokenValid(token);
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }

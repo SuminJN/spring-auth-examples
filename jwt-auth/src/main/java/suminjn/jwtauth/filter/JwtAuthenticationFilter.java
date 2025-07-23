@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     // AccessToken 검증
-                    if (jwtUtil.validateAccessToken(token, username)) {
+                    if (jwtUtil.validateAccessToken(token)) {
                         UsernamePasswordAuthenticationToken authToken = 
                             new UsernamePasswordAuthenticationToken(
                                 username, 
