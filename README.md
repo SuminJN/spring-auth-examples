@@ -10,7 +10,7 @@
 | `form-login`       | 커스텀 로그인 페이지를 사용하는 전통적인 폼 로그인 방식 |
 | `http-basic-auth`  | HTTP Basic 인증을 활용한 간단한 인증 방식 |
 | `jwt-auth`         | Access / Refresh 토큰을 활용한 JWT 기반 무상태 인증 방식 |
-| `oauth2`           | Google, GitHub 등 외부 OAuth2 공급자를 이용한 로그인 방식 |
+| `oauth2`           | Google, Kakao, Naver 외부 OAuth2 공급자를 이용한 로그인 방식 |
 
 ---
 
